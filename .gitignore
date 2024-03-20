@@ -71,3 +71,6 @@ CMakeSettings.json
 /.vs/
 /out/
 
+**/Bin/
+Bin-Int/
+
