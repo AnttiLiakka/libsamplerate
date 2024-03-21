@@ -6,11 +6,10 @@ project "libsamplerate"
     staticruntime "on"
     warnings "off"
 
-    outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
     version = "0.2.2"
 
-    targetdir ("Bin/" .. outputdir .. "/%{prj.name}")
-    objdir ("Bin-Int/" .. outputdir .. "/%{prj.name}")
+    targetdir ("%{wks.location}/Bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("%{wks.location}/Bin-Int/" .. outputdir .. "/%{prj.name}")
 
     files
     {
