@@ -33,6 +33,8 @@ project "libsamplerate"
 
     defines
     {
+       "ENABLE_SINC_FAST_CONVERTER",
+       "ENABLE_SINC_MEDIUM_CONVERTER",
        "ENABLE_SINC_BEST_CONVERTER",
        "HAVE_STDBOOL_H",
        "VERSION=\"" .. version .. "\"",
