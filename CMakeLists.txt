@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1..3.18)
+cmake_minimum_required(VERSION 3.16)
 
 # Policies
 
@@ -38,12 +38,6 @@ include(CheckLibraryExists)
 include(CheckSymbolExists)
 include(GNUInstallDirs)
 
-include(CTest)
-
-if(DEFINED LIBSAMPLERATE_TESTS)
-  message(DEPRECATION "LIBSAMPLERATE_TESTS option deprecated, use BUILD_TESTING option instead.")
-  set(BUILD_TESTING ${LIBSAMPLERATE_TESTS})
-endif()
 
 add_definitions(-DHAVE_CONFIG_H)
 include_directories(${PROJECT_BINARY_DIR})
@@ -99,52 +93,9 @@ check_include_file(immintrin.h HAVE_IMMINTRIN_H)
 
 find_package(PkgConfig)
 
-if(LIBSAMPLERATE_EXAMPLES OR BUILD_TESTING)
-  if((NOT VCPKG_TOOLCHAIN) AND PKG_CONFIG_FOUND AND (NOT CMAKE_VERSION VERSION_LESS 3.6))
-    pkg_check_modules(SndFile sndfile IMPORTED_TARGET)
-    if(SndFile_FOUND)
-      set(SNDFILE_TARGET PkgConfig::SndFile)
-    endif()
-  else()
-    find_package(SndFile)
-    if(SndFile_FOUND)
-      set(SNDFILE_TARGET SndFile::sndfile)
-    endif()
-  endif()
-
-  set(HAVE_SNDFILE ${SndFile_FOUND})
-endif()
-
 # SampleRate library
 
 add_subdirectory(src)
 
-# Tests
-
-# BUILD_TESTING is declared by CTest module and is ON by default
-if(BUILD_TESTING)
-  add_subdirectory(tests)
-endif()
-
-# Examples
-
-if(LIBSAMPLERATE_EXAMPLES)
-  add_subdirectory(examples)
-endif()
-
 configure_file(config.h.cmake config.h)
 
-if(LIBSAMPLERATE_INSTALL)
-  add_subdirectory(docs)
-endif()
-
-# Packaging support
-
-# See https://cmake.org/cmake/help/v3.12/release/3.12.html#cpack
-if(CMAKE_VERSION VERSION_LESS 3.12)
-  set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
-  set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
-  set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
-endif()
-
-include(CPack)
