@@ -3,7 +3,7 @@
 project "libsamplerate"
     kind "StaticLib"
     language "C"
-    staticruntime "on"
+    staticruntime "off"
     warnings "off"
 
     version = "0.2.2"
